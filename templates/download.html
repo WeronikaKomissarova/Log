@@ -5,6 +5,7 @@
     <title>Uploads</title>
 </head>
 <body>
+    <div><h1>FFFFFFFFFFFFFFFFFF</h1></div>
     <tr>
         {% for col in column_names %}
         <th>{{col}}</th>
@@ -14,11 +15,7 @@
     <tr>
         {% for col, row_ in zip(column_names, row) %}
         {% if col == link_column %}
-        <td>
-            <button type="submit" value={{ row_ }} name="person_id" form="patient_form" class="patient_button">
-                {{ row_ }}
-            </button>
-        </td>
+        
         {% else %}
         <td>{{row_}}</td>
         {% endif %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel='stylesheet' href="../static/style.css" type="text/css"/>
+<title>LogReader</title>
+</head>
+<body>
+<div id="wrap">
+  <div id="header">
+    <h1 id="logo">Log<span class="gray">reader</span></h1>
+  </div>
+  <div id="content-wrap">
+    <div id="sidebar" >
+      <h2 class="clear">Settings</h2>
+      <ul class="sidemenu">
+        <li><a>Sort by time
+            <form action=''>
+                <p><label><input name='1' type='radio' value='1' checked>direct</label></p>
+                <p><label><input name='1' type='radio' value='2'></label>reverse</p>
+            </form>
+        </a>
+      </li>
+
+        <li><a >Search by message type
+          <form action="">
+            <p><label><input type="checkbox" name='a' value="INFO"> INFO</label></p>
+            <p><label><input type="checkbox" name='a' value="WARNING">WARNING</label></p>
+            <p><label><input type="checkbox" name='a' value="ERROR">ERROR</label></p>
+            <p><label><input type="checkbox" name='a' value="DEBUG">DEBUG</label></p>
+            <p><label><input type="checkbox" name='a' value="FATAL">FATAL</label></p>
+            <p><label><input type="checkbox" name='a' value="TRACE">TRACE</label></p>
+          </form>
+        </a></li>
+        <li><a >Search by time
+          <form action="">
+            <p><input type="date" name='created' value="from"></p>
+            <p><input type="date" name='icreated' value="to"></p>
+          </form>
+        </a></li>
+        
+
+
+
+      </ul>
+      
+      <h2 class="clear" >Search</h2>
+      <div class="searchform">
+        <form action="#">
+          <p>
+            <input name="search_query" class="textbox" type="text" />
+            <input name="search" class="button" value="Search" type="submit" />
+          </p>
+        </form>
+      </div>
+    </div>
+    <div id="main"> <a name="TemplateInfo"></a>
+      <div class="box">
+        {% include '%s' % html_file %}
+      </div>
+      
+    </div>
+    <br />
+  </div>
+</div>
+</body>
+</html>

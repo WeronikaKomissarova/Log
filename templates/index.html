@@ -18,8 +18,12 @@
 <body>
 
 <form method="POST" action='/upload' class="dropzone dz-clickable" 
-      id="dropper" enctype="multipart/form-data">
+      id="dropper" enctype="multipart/form-data" hre>
 </form>
+<p>
+        <a href="{{ url_for('download_file') }}">Download</a>
+
+</p>
 
 <script type="application/javascript">
     Dropzone.options.dropper = {
@@ -28,7 +32,8 @@
         forceChunking: true,
         url: '/upload',
         maxFilesize: 2049, // megabytes
-        chunkSize: 100000000 // bytes
+        chunkSize: 100000000, // bytes
+        maxFiles: 1
     }
 </script>
 </body>

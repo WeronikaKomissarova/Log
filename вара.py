@@ -6,6 +6,7 @@ from flask import render_template, Blueprint, request, make_response, Flask, url
 from werkzeug.utils import secure_filename
 
 EXTENSIONS = ['.log']
+
 blueprint = Blueprint('templated', __name__, template_folder='templates')
 
 log = logging.getLogger('pydrop')
@@ -33,9 +34,9 @@ def upload():
 
     # If the file already exists it's ok if we are appending to it,
     # but not if it's new file that would overwrite the existing one
-        if os.path.exists(save_path) and current_chunk == 0:
+        #if os.path.exists(save_path) and current_chunk == 0:
         # 400 and 500s will tell dropzone that an error occurred and show an error
-            return make_response(('File already exists', 400))
+            #return make_response(('File already exists', 400))
 
         try:
             with open(save_path, 'ab') as f:
@@ -63,13 +64,16 @@ def upload():
             log.debug(f'Chunk {current_chunk + 1} of {total_chunks} '
                   f'for file {file.filename} complete')
 
-        df = RenderFile(save_path).file_to_dataframe()
-        return render_template('download.html' #, column_names=df.columns.values, row_data=list(df.values.tolist()),
-                               #link_column="Day", zip=zip
-        )
+        return redirect(url_for(show_file,filename=file.filename))
     else:
         return make_response(('Invalid file extension',300 ))
 
+@blueprint.route('/show_file')
+def show_file(filename):
+    file_path=os.path.join(os.getcwd(),filename)
+    df = RenderFile(file_path).file_to_dataframe()
+    return render_template('download.html', column_names=df.columns.values, row_data=list(df.values.tolist()),
+                            zip=zip)
 
 
 app =  Flask(__name__)
