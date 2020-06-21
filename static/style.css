@@ -50,7 +50,15 @@ ul, ol {
 
 /* images */
 
-
+but { 
+	background: rgb(3, 0, 199);
+	text-align: center;
+	height: 80px;
+	width: 100px;
+}
+bbb {
+	font: bolder 50px 'Trebuchet MS', Arial, Sans-serif;
+}
 
 /* form elements */
 form {
