@@ -18,11 +18,14 @@ body {
 	margin: 0; 	padding: 0;
 	font: normal .70em/1.6em Verdana, Tahoma, sans-serif;
 	color: rgb(0, 0, 0);
-	background: rgb(0, 0, 0);
+	background: white;
 	text-align: center;	
 }
 /* links */
-
+tbody tr:hover{
+	background: rgb(172, 169, 169);
+	color:rgb(0, 0, 0)
+}
 
 
 /* headers */
@@ -173,7 +176,9 @@ input.button {
 	margin-left: 0;
 	overflow-y: scroll;
 }
-
+#click{
+	color: red;
+}
 /* sidebar */
 #sidebar {
 	float: left;

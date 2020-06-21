@@ -3,6 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel='stylesheet' href="../static/style.css" type="text/css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type=text/javascript> $(function() { $("#mybutton").click(function (event) { $.getJSON('/download', { },
+  function(data) { }); return false; }); }); 
+  </script> 
+
 <title>LogReader</title>
 </head>
 <body>
@@ -12,56 +17,62 @@
   </div>
   <div id="content-wrap">
     <div id="sidebar" >
+      
       <h2 class="clear">Settings</h2>
       <ul class="sidemenu">
-        <li><a>Sort by time
-            <form action=''>
-                <p><label><input name='1' type='radio' value='1' checked>direct</label></p>
-                <p><label><input name='1' type='radio' value='2'></label>reverse</p>
-            </form>
-        </a>
-      </li>
-
-        <li><a >Search by message type
-          <form action="">
-            <p><label><input type="checkbox" name='a' value="INFO"> INFO</label></p>
-            <p><label><input type="checkbox" name='a' value="WARNING">WARNING</label></p>
-            <p><label><input type="checkbox" name='a' value="ERROR">ERROR</label></p>
-            <p><label><input type="checkbox" name='a' value="DEBUG">DEBUG</label></p>
-            <p><label><input type="checkbox" name='a' value="FATAL">FATAL</label></p>
-            <p><label><input type="checkbox" name='a' value="TRACE">TRACE</label></p>
-          </form>
-        </a></li>
-        <li><a >Search by time
-          <form action="">
-            <p><input type="date" name='created' value="from"></p>
-            <p><input type="date" name='icreated' value="to"></p>
-          </form>
-        </a></li>
-        
-
-
-
+        <form  method="post">
+          <li><a>Sort by time
+            <p><label><input name='timesort' type='radio' value='1' id ='1'  checked>direct</label></p>
+            <p><label><input name='timesort' type='radio' value='2' id='2' ></label>reverse</p>
+          </a></li>
+          <li><a >Search by message type
+              <p><label><input type="checkbox" name='typesort' value="Info" id='stat' > INFO</label></p>
+              <p><label><input type="checkbox" name='typesort' value="Warning" id='stat' >WARNING</label></p>
+              <p><label><input type="checkbox" name='typesort' value="Error" id='stat'>ERROR</label></p>
+              <p><label><input type="checkbox" name='typesort' value="Debug" id='6' >DEBUG</label></p>
+              <p><label><input type="checkbox" name='typesort' value="Fatal" id='7' >FATAL</label></p>
+              <p><label><input type="checkbox" name='typesort' value="Trace" id='8'>TRACE</label></p>
+              
+          </a></li>
+          <li><a >Search by time
+              <p><input type="date" name='time' value="from" id='9' onkeyup='saveValue(this);'></p>
+              <p><input type="date" name='time' value="to" id='10' onkeyup='saveValue(this);'></p>        
+          </a></li>
+         
+          <li>
+            <a> Search
+                <p>
+                    <input name="search_query" class="textbox" type="text" />
+                  </p>
+            </a>
+          </li>
+          <li>
+              <p><input id='mybutton' type='submit'value='submit'>
+              </p>
+          </li>
+        </form>
       </ul>
       
-      <h2 class="clear" >Search</h2>
-      <div class="searchform">
-        <form action="#">
-          <p>
-            <input name="search_query" class="textbox" type="text" />
-            <input name="search" class="button" value="Search" type="submit" />
-          </p>
-        </form>
-      </div>
     </div>
     <div id="main"> <a name="TemplateInfo"></a>
       <div class="box">
-        {% include '%s' % html_file %}
+        
+        {% include '%s' %html_file %}
+        
       </div>
       
     </div>
     <br />
   </div>
 </div>
+
 </body>
+<script>
+  $(document).ready(function(){
+    alert('ready');
+  });
+</script>
+<script>
+
+</script>
 </html>
