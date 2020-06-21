@@ -1,2 +1,2 @@
-Лабораторная работа Отображение логов
-![Иллюстрация к проекту] (https://github.com/WeronikaKomissarova/Log/blob/master/image/Вход.png)
+#Лабораторная работа Отображение логов
+![Иллюстрация к проекту] (http://github.com/WeronikaKomissarova/Log/master/image/Вход.png)
