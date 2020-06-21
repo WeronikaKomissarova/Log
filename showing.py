@@ -74,8 +74,8 @@ def upload():
         os.remove(save_path)
         session['file']=os.path.join(os.getcwd(),name) #путь к фрейму на диске
         df = pd.read_pickle(session['file'])
-        df.to_html(os.path.join(os.getcwd(), 'templates\%s.html' % session['name']),table_id='mytable')
-        session['html'] = os.path.join(os.getcwd(), 'templates\%s.html' % session['name'])
+        df.to_html(os.path.join(os.getcwd(), 'templates\dataframe\%s.html' % session['name']),table_id='mytable')
+        session['html'] = os.path.join(os.getcwd(), 'templates\dataframe\%s.html' % session['name'])
         return make_response(("Chunk upload successful", 200))
     else:
         return make_response(('Invalid file extension', 300))
@@ -85,7 +85,7 @@ def upload():
 def download_file():
     dfLog = pd.read_pickle(session['file'])
     if request.method=='POST':
-        os.remove(os.path.join(os.getcwd(), 'templates\%s.html' % session['name']))
+        os.remove(os.path.join(os.getcwd(), 'templates\dataframe\%s.html' % session['name']))
         if request.form['timesort'] == 'direct':
             dfLog = dfLog.sort_index()
         elif request.form['timesort'] == 'reverse':
@@ -103,10 +103,13 @@ def download_file():
         search_query=request.form.get('search_query')
         if search_query:
             dfLog=dfLog[dfLog['Message'].str.contains(str(search_query), regex=False)]
-        dfLog.to_html(os.path.join(os.getcwd(), 'templates\%s.html' % session['name']))
-    return render_template('downloads.html', html_file='%s.html' %session['name'])
+        dfLog.to_html(os.path.join(os.getcwd(), 'templates\dataframe\%s.html' % session['name']))
+    return render_template('downloads.html', html_file='dataframe/%s.html' %session['name'])
 
-
-
+@app.route('/close', methods=["POST"])
+def close():
+    os.remove(session['file'])
+    os.remove(session['html'])
+    pass
 if __name__ == '__main__':
     app.run(debug=True)
