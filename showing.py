@@ -35,6 +35,7 @@ def upload():
 
         save_path = os.path.join(app.config["UPLOAD_FOLDER"], secure_filename(file.filename))
         current_chunk = int(request.form['dzchunkindex'])
+        session['name'] = str(file.filename).split('.')[0]  # имя файла без расширения
 
         # If the file already exists it's ok if we are appending to it,
         # but not if it's new file that would overwrite the existing one
@@ -68,10 +69,13 @@ def upload():
             log.debug(f'Chunk {current_chunk + 1} of {total_chunks} '
                       f'for file {file.filename} complete')
 
-        name='uploads\%s.pkl' %str(file.filename).split('.')[0]
+        name='uploads\%s.pkl' %session['name']
         RenderFile(save_path).file_to_dataframe().to_pickle(name)
         os.remove(save_path)
-        session['file']=os.path.join(os.getcwd(),name)
+        session['file']=os.path.join(os.getcwd(),name) #путь к фрейму на диске
+        df = pd.read_pickle(session['file'])
+        df.to_html(os.path.join(os.getcwd(), 'templates\%s.html' % session['name']),table_id='mytable')
+        session['html'] = os.path.join(os.getcwd(), 'templates\%s.html' % session['name'])
         return make_response(("Chunk upload successful", 200))
     else:
         return make_response(('Invalid file extension', 300))
@@ -79,13 +83,30 @@ def upload():
 
 @app.route('/download', methods=['GET', 'POST'])
 def download_file():
-    df=pd.read_pickle(session['file'])
-    file = df.to_html(os.path.join(os.getcwd(),'templates/file.html'))
+    dfLog = pd.read_pickle(session['file'])
+    if request.method=='POST':
+        os.remove(os.path.join(os.getcwd(), 'templates\%s.html' % session['name']))
+        if request.form['timesort'] == 'direct':
+            dfLog = dfLog.sort_index()
+        elif request.form['timesort'] == 'reverse':
+            dfLog = dfLog.iloc[::-1]
+        else:pass
+        typesort = request.form.getlist('typesort')
+        if typesort:
+            dfLog = dfLog.loc[dfLog['Type'].isin(typesort)]
+        timeline=request.form.getlist('time')
+        if (timeline[0]!=''):
+            dfLog=dfLog[(dfLog.Day >= (timeline[0]))]
+        if (timeline[1]!=''):
+            dfLog = dfLog[(dfLog.Day <= (timeline[1]))]
+        else:pass
+        search_query=request.form.get('search_query')
+        if search_query:
+            dfLog=dfLog[dfLog['Message'].str.contains(str(search_query), regex=False)]
+        dfLog.to_html(os.path.join(os.getcwd(), 'templates\%s.html' % session['name']))
+    return render_template('downloads.html', html_file='%s.html' %session['name'])
 
-    return render_template('downloads.html', html_file='file.html'
-
-                           )
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
